@@ -3,5 +3,5 @@ Module {
 	description: 'aoc-vlang'
 	version: '0.0.0'
 	license: 'MIT'
-	dependencies: []
+	dependencies: ["zztkm.vdotenv"]
 }
