@@ -31,9 +31,14 @@ fn abs_diff[T](a T, b T) T {
 	return a - b
 }
 
-fn part1(input [][]int) int {
+fn part1(input [][]int) !int {
 	sorted := input.map(it.sorted())
-	return arrays.sum(arrays.group[int](sorted[0], sorted[1]).map(abs_diff(it[0], it[1]))) or { -1 }
+	return arrays.sum(arrays.group[int](sorted[0], sorted[1]).map(abs_diff(it[0], it[1])))!
+}
+
+fn part2(input [][]int) !int {
+	freq := arrays.map_of_counts(input[1])
+	return arrays.sum(input[0].map(it * freq[it]))!
 }
 
 fn main() {
@@ -45,5 +50,6 @@ fn main() {
 	input := parse_input(filename)!
 	// dump(input)
 
-	println(part1(input))
+	println(part1(input)!)
+	println(part2(input)!)
 }
