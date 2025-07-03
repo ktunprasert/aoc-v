@@ -56,19 +56,19 @@ fn main() {
 
 fn download(year string, day string, session string) ! {
 	println('Downloading input for year ${year} and day ${day}...')
-	if os.exists('./inputs/${year}-${day}.txt') {
+	if os.exists('./${year}/${day}.txt') {
 		println('Input file already exists: ./inputs/${year}-${day}.txt')
 		return
 	}
 	defer { println('Input downloaded successfully.') }
 
-	if !os.is_dir('./inputs') {
-		println('Creating inputs/ directory...')
-		os.mkdir('./inputs')!
+	if !os.is_dir('./${year}') {
+		println('Creating ${year}/ directory...')
+		os.mkdir('./${year}')!
 	}
 
 	log.debug('session: ${session}')
-	http.download_file_with_cookies('${aoc_url}/${year}/day/${day}/input', './inputs/${year}-${day}.txt',
+	http.download_file_with_cookies('${aoc_url}/${year}/day/${day}/input', './${year}/${day}.txt',
 		{
 		'session': session
 	})!
