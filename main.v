@@ -4,6 +4,7 @@ import zztkm.vdotenv
 import flag
 import os
 import net.http
+import log
 
 @[xdoc: 'This is aoc-v, a tool to download Advent of Code data\nUsage: aoc-v <year> <day>']
 @[name: 'aoc-v']
@@ -11,13 +12,19 @@ struct Config {
 mut:
 	show_help bool   @[long: help; short: h]
 	session   string @[long: session; short: s; xdoc: 'supply session manually, otherwise \$SESSION is read from env']
+	debug     bool   @[long: debug; short: d; xdoc: 'enable debug mode']
 }
 
 const aoc_url = 'https://adventofcode.com'
 
 fn main() {
+	log.set_level(.info)
+
 	vdotenv.load()
 	mut config, args := flag.to_struct[Config](os.args, skip: 1)!
+	if config.debug {
+		log.set_level(.debug)
+	}
 
 	mut exit_code := 0
 	if args.len != 2 {
@@ -50,6 +57,7 @@ fn download(year string, day string, session string) ! {
 		os.mkdir('./inputs')!
 	}
 
+	log.debug('session: ${session}')
 	http.download_file_with_cookies('${aoc_url}/${year}/day/${day}/input', './inputs/${year}-${day}.txt',
 		{
 		'session': session
