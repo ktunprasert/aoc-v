@@ -6,13 +6,14 @@ import os
 import net.http
 import log
 
-@[xdoc: 'This is aoc-v, a tool to download Advent of Code data\nUsage: aoc-v <year> <day>']
+@[xdoc: 'This is aoc-v, a tool to interact with Advent of Code\nUsage: aoc-v <year> <day>']
 @[name: 'aoc-v']
 struct Config {
 mut:
 	show_help bool   @[long: help; short: h]
 	session   string @[long: session; short: s; xdoc: 'supply session manually, otherwise \$SESSION is read from env']
 	debug     bool   @[long: debug; short: d; xdoc: 'enable debug mode']
+	download  bool   @[long: download; short: D; xdoc: 'download input file']
 }
 
 const aoc_url = 'https://adventofcode.com'
@@ -44,16 +45,25 @@ fn main() {
 		exit(exit_code)
 	}
 
-	println('Downloading input for year ${args[0]} and day ${args[1]}...')
-	download(args[0], args[1], config.session) or {
-		println('Error downloading input: ${err}')
-		exit(-1)
+	if config.download {
+		download(args[0], args[1], config.session) or {
+			println('Error downloading input: ${err}')
+			exit(-1)
+		}
+		exit(0)
 	}
-	println('Input downloaded successfully.')
 }
 
 fn download(year string, day string, session string) ! {
+	println('Downloading input for year ${year} and day ${day}...')
+	if os.exists('./inputs/${year}-${day}.txt') {
+		println('Input file already exists: ./inputs/${year}-${day}.txt')
+		return
+	}
+	defer { println('Input downloaded successfully.') }
+
 	if !os.is_dir('./inputs') {
+		println('Creating inputs/ directory...')
 		os.mkdir('./inputs')!
 	}
 
