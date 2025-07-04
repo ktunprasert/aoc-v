@@ -13,12 +13,7 @@ fn parse_input(filename string) ![][]int {
 
 	mut input := [][]int{len: 2, init: []int{}}
 	for i, n in content.fields().map(it.int()) {
-		if i & 1 == 1 {
-			input[1] << n
-			continue
-		}
-
-		input[0] << n
+		input[i & 1] << n
 	}
 
 	return input
