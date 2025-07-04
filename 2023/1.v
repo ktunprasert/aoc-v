@@ -20,7 +20,7 @@ fn parse_input(lines []string) ![][]int {
 			0 { [0, 0] }
 			2 { tmp }
 			1 { tmp.repeat(2) }
-			else { [tmp[0], tmp[tmp.len - 1]] }
+			else { [tmp.first(), tmp.last()] }
 		}
 	}
 
@@ -89,7 +89,7 @@ fn parse_input2(lines []string) ![][]int {
 			0 { [0, 0] }
 			2 { tmp }
 			1 { tmp.repeat(2) }
-			else { [tmp[0], tmp[tmp.len - 1]] }
+			else { [tmp.first(), tmp.last()] }
 		}
 	}
 
