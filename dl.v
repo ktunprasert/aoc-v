@@ -14,6 +14,7 @@ mut:
 	session   string @[long: session; short: s; xdoc: 'supply session manually, otherwise \$SESSION is read from env']
 	debug     bool   @[long: debug; short: d; xdoc: 'enable debug mode']
 	generate  bool   @[long: generate; short: g; xdoc: 'generate a template for the day']
+	download  bool   @[long: download; short: D; xdoc: 'download the input file for the day']
 }
 
 const aoc_url = 'https://adventofcode.com'
@@ -58,11 +59,14 @@ fn main() {
 		}
 	}
 
-	download(args[0], args[1], config.session) or {
-		println('Error downloading input: ${err}')
-		exit(-1)
+	if config.download {
+		download(args[0], args[1], config.session) or {
+			println('Error downloading input: ${err}')
+			exit(-1)
+		}
 	}
 
+	println('All operations completed successfully.')
 	exit(0)
 }
 
