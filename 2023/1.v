@@ -6,9 +6,9 @@ import arrays
 const input_file = '2023/1.txt'
 const example_file = '2023/1e.txt'
 
-fn parse_input(filename string) ![][]int {
+fn parse_input(lines []string) ![][]int {
 	mut out := [][]int{}
-	for _, line in os.read_lines(filename)! {
+	for _, line in lines {
 		mut tmp := []int{cap: 2}
 		for n in line {
 			if n.is_digit() {
@@ -31,9 +31,9 @@ fn part1(input [][]int) !int {
 	return arrays.sum(input.map(it[0] * 10 + it[1]))!
 }
 
-fn parse_input2(filename string) ![][]int {
+fn parse_input2(lines []string) ![][]int {
 	mut out := [][]int{}
-	for _, line in os.read_lines(filename)! {
+	for _, line in lines {
 		mut tmp := []int{cap: 2}
 		mut i := 0
 		for i < line.len {
@@ -101,11 +101,12 @@ fn part2(input [][]int) !int {
 }
 
 fn main() {
-	input := parse_input(if os.args.len > 1 { os.args[1] } else { input_file })!
+	filename := if os.args.len > 1 { os.args[1] } else { input_file }
+	lines := os.read_lines(filename)!
 
-	println(part1(input)!)
+	input1 := parse_input(lines)!
+	println(part1(input1)!)
 
-	input2 := parse_input2(if os.args.len > 1 { os.args[1] } else { input_file })!
-
+	input2 := parse_input2(lines)!
 	println(part2(input2)!)
 }
