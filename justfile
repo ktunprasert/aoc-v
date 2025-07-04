@@ -32,8 +32,8 @@ build-day year day: (_must year/day)
 run year day: (build-day year day)
     ./{{year}}/{{day}} ./{{year}}/{{day}}.txt
 
-example year day: (build-day year day)
-    ./{{year}}/{{day}} ./{{year}}/{{day}}e.txt
+example year day *fn: (build-day year day)
+    ./{{year}}/{{day}} ./{{year}}/{{if fn != '' { fn } else { day+'e' } }}.txt
 
 bench year day *FLAGS: (build-day year day)
     hyperfine {{FLAGS}} './{{year}}/{{day}} ./{{year}}/{{day}}.txt'
