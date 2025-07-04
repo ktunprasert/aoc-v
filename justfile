@@ -1,4 +1,6 @@
 alias d := dl
+alias dg := dlg
+alias g := gen
 alias r := run
 alias e := example
 alias b := bench
@@ -18,6 +20,9 @@ build-dl: (_build 'dl')
 
 dl year day: build-dl
     ./dl -D {{year}} {{day}}
+
+gen year day: build-dl
+    ./dl -g {{year}} {{day}}
 
 dlg year day: build-dl
     ./dl -Dg {{year}} {{day}}
