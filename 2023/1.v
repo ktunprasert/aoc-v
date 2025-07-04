@@ -6,39 +6,37 @@ import arrays
 const input_file = '2023/1.txt'
 const example_file = '2023/1e.txt'
 
-fn parse_input(lines []string) ![][]int {
-	mut out := [][]int{}
+fn parse_input(lines []string) ![]int {
+	mut out := []int{}
 	for _, line in lines {
-		mut tmp := []int{cap: 2}
+		mut f, mut s := -1, -1
 		for n in line {
 			if n.is_digit() {
-				if tmp.len == 2 {
-					tmp[1] = int(n - `0`)
+				if f == -1 {
+					f = int(n - `0`)
 					continue
 				}
-
-				tmp << int(n - `0`)
+				s = int(n - `0`)
 			}
 		}
 
-		out << match tmp.len {
-			2 { tmp }
-			1 { tmp.repeat(2) }
-			else { [0, 0] }
+		out << match s {
+			-1 { f * 10 + f }
+			else { f * 10 + s }
 		}
 	}
 
 	return out
 }
 
-fn part1(input [][]int) !int {
-	return arrays.sum(input.map(it[0] * 10 + it[1]))!
+fn part1(input []int) !int {
+	return arrays.sum(input)!
 }
 
-fn parse_input2(lines []string) ![][]int {
-	mut out := [][]int{}
+fn parse_input2(lines []string) ![]int {
+	mut out := []int{}
 	for _, line in lines {
-		mut tmp := []int{cap: 2}
+		mut f, mut s := -1, -1
 		mut i := 0
 		for i < line.len {
 			n := line[i]
@@ -90,27 +88,25 @@ fn parse_input2(lines []string) ![][]int {
 			}
 
 			if v != -1 {
-				if tmp.len == 2 {
-					tmp[1] = v
+				if f == -1 {
+					f = v
 					continue
 				}
 
-				tmp << v
+				s = v
 			}
 		}
 
-		out << match tmp.len {
-			0 { [0, 0] }
-			2 { tmp }
-			1 { tmp.repeat(2) }
-			else { [tmp.first(), tmp.last()] }
+		out << match s {
+			-1 { f * 10 + f }
+			else { f * 10 + s }
 		}
 	}
 
 	return out
 }
 
-fn part2(input [][]int) !int {
+fn part2(input []int) !int {
 	return part1(input)!
 }
 
