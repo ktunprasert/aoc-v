@@ -28,7 +28,12 @@ fn abs_diff[T](a T, b T) T {
 
 fn part1(input [][]int) !int {
 	sorted := input.map(it.sorted())
-	return arrays.sum(arrays.group[int](sorted[0], sorted[1]).map(abs_diff(it[0], it[1])))!
+	mut sum := 0
+	for i in 0 .. sorted[0].len {
+		sum += abs_diff(sorted[0][i], sorted[1][i])
+	}
+
+	return sum
 }
 
 fn part2(input [][]int) !int {
