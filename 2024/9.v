@@ -3,35 +3,35 @@ module main
 import os
 import arrays
 
-fn parse_input(line string) !([][]int, int) {
+const bad_num = -101
+
+fn parse_input(line string) ![]int {
 	nums := line.runes().map(|c| if c >= `0` { int(c - `0`) } else { 0 })
 
-	return arrays.window[int](nums,
-		step: 2
-		size: 2
-	), arrays.sum(nums)!
-}
-
-fn part1(input [][]int, len int) !u64 {
-	bad_num := -101
-
-	mut disk := []int{len: len, init: bad_num}
+	mut disk := []int{len: arrays.sum(nums)!, init: bad_num}
 	mut id := 0
 	mut skip := 0
 	mut first_skip := -1
-	for code in input {
-		for j in 0 .. code[0] {
+
+	for i := 0; i < nums.len; i += 2 {
+		for j in 0 .. nums[i] {
 			disk[skip + j] = id
 		}
+
 		if first_skip < 0 {
-			first_skip = code[0]
+			first_skip = nums[i]
 		}
 
-		skip += code[0] + code[1]
+		skip += nums[i] + nums[i + 1]
 		id++
 	}
 
-	mut i, mut j := first_skip, disk.len - 1
+	return disk
+}
+
+fn part1(d []int) !u64 {
+	mut disk := d.clone()
+	mut i, mut j := 0, disk.len - 1
 	for i < j {
 		for disk[i] != bad_num {
 			i++
@@ -60,9 +60,6 @@ fn part2(input []int) !
 fn main() {
 	filename := if os.args.len > 1 { os.args[1] } else { '2024/9.txt' }
 	lines := os.read_file(filename)!
-	// println(lines)
-	// println(parse_input(lines)!)
-	code, len := parse_input(lines)!
-
-	println(part1(code, len)!)
+	disk := parse_input(lines)!
+	println(part1(disk)!)
 }
