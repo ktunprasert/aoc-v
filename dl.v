@@ -13,7 +13,6 @@ mut:
 	show_help bool   @[long: help; short: h]
 	session   string @[long: session; short: s; xdoc: 'supply session manually, otherwise \$SESSION is read from env']
 	debug     bool   @[long: debug; short: d; xdoc: 'enable debug mode']
-	download  bool   @[long: download; short: D; xdoc: 'download input file']
 }
 
 const aoc_url = 'https://adventofcode.com'
@@ -45,13 +44,11 @@ fn main() {
 		exit(exit_code)
 	}
 
-	if config.download {
-		download(args[0], args[1], config.session) or {
-			println('Error downloading input: ${err}')
-			exit(-1)
-		}
-		exit(0)
+	download(args[0], args[1], config.session) or {
+		println('Error downloading input: ${err}')
+		exit(-1)
 	}
+	exit(0)
 }
 
 fn download(year string, day string, session string) ! {
