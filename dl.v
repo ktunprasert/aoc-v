@@ -13,6 +13,7 @@ mut:
 	show_help bool   @[long: help; short: h]
 	session   string @[long: session; short: s; xdoc: 'supply session manually, otherwise \$SESSION is read from env']
 	debug     bool   @[long: debug; short: d; xdoc: 'enable debug mode']
+	generate  bool   @[long: generate; short: g; xdoc: 'generate a template for the day']
 }
 
 const aoc_url = 'https://adventofcode.com'
@@ -44,19 +45,33 @@ fn main() {
 		exit(exit_code)
 	}
 
+	if config.generate {
+		templ := generate(args[0], args[1])
+		if os.exists('./${args[0]}/${args[1]}.v') {
+			println('Template file already exists: ./${args[0]}/${args[1]}.v')
+		} else {
+			println('Generating template file: ./${args[0]}/${args[1]}.v')
+			os.write_file('./${args[0]}/${args[1]}.v', templ) or {
+				println('Error writing template file: ${err}')
+				exit(-1)
+			}
+		}
+	}
+
 	download(args[0], args[1], config.session) or {
 		println('Error downloading input: ${err}')
 		exit(-1)
 	}
+
 	exit(0)
 }
 
 fn download(year string, day string, session string) ! {
-	println('Downloading input for year ${year} and day ${day}...')
 	if os.exists('./${year}/${day}.txt') {
 		println('Input file already exists: ./inputs/${year}-${day}.txt')
 		return
 	}
+	println('Downloading input for year ${year} and day ${day}...')
 	defer { println('Input downloaded successfully.') }
 
 	if !os.is_dir('./${year}') {
@@ -69,4 +84,8 @@ fn download(year string, day string, session string) ! {
 		{
 		'session': session
 	})!
+}
+
+fn generate(year string, day string) string {
+	return $tmpl('day.v.tmpl')
 }
