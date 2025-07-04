@@ -10,12 +10,16 @@ _build fn:
       v {{fn}}.v
     end
 
+_must fn:
+    @echo "Building {{fn}}.v"
+    v {{fn}}.v
+
 build-dl: (_build 'dl')
 
 dl year day: build-dl
     ./dl {{year}} {{day}}
 
-build-day year day: (_build year/day)
+build-day year day: (_must year/day)
 
 run year day: (build-day year day)
     ./{{year}}/{{day}} ./{{year}}/{{day}}.txt
