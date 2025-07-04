@@ -1,9 +1,17 @@
-build-dl:
+_build fn:
     #!/usr/bin/env fish
-    if not test -f dl
-      echo "Building dl.v file"
-      v -o dl ./dl.v
+    if not test -f {{fn}}
+      echo "Building {{fn}}.v"
+      v {{fn}}.v
     end
 
-dl YEAR DAY: build-dl
-    ./dl {{YEAR}} {{DAY}}
+build-dl: (_build 'dl')
+
+dl year day: build-dl
+    ./dl {{year}} {{day}}
+
+build-day year day: (_build year/day)
+
+run year day: (build-day year day)
+    ./{{year}}/{{day}} ./{{year}}/{{day}}.txt
+
