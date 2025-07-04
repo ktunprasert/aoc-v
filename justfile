@@ -17,7 +17,10 @@ _must fn:
 build-dl: (_build 'dl')
 
 dl year day: build-dl
-    ./dl {{year}} {{day}}
+    ./dl -D {{year}} {{day}}
+
+dlg year day: build-dl
+    ./dl -Dg {{year}} {{day}}
 
 build-day year day: (_must year/day)
 
