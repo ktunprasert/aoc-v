@@ -4,8 +4,8 @@ module main
 import os
 import arrays
 
-const input_file = '1.txt'
-const example_file = '1e.txt'
+const input_file = '2024/1.txt'
+const example_file = '2024/1e.txt'
 
 fn parse_input(filename string) ![][]int {
 	content := os.read_file(filename)!
