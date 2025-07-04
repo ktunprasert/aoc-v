@@ -4,10 +4,10 @@ import os
 import arrays
 
 fn parse_input(lines []string) ![][][]int {
-	mut games := [][][]int{len: lines.len}
+	mut games := [][][]int{len: lines.len, cap: lines.len}
 	for i, game in lines.map(it.after_char(`:`).split('; ').map(it.replace_char(`,`, ` `,
 		20).fields())) {
-		mut game_ints := [][]int{len: game.len, init: []int{len: 3, init: 0}}
+		mut game_ints := [][]int{len: game.len, cap: game.len, init: []int{len: 3, init: 0}}
 		for j, colors in game {
 			for color in arrays.window(colors, step: 2, size: 2) {
 				k := match color[1] {
