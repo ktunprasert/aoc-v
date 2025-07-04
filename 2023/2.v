@@ -28,16 +28,7 @@ fn parse_input(lines []string) ![][][]int {
 fn part1(games [][][]int) !int {
 	mut total := 0
 	for id, game in games {
-		mut vibe := true
-		for colors in game {
-			r, g, b := colors[0], colors[1], colors[2]
-			if !(r <= 12 && g <= 13 && b <= 14) {
-				vibe = false
-				break
-			}
-		}
-
-		if vibe {
+		if game.all(|it| it[0] <= 12 && it[1] <= 13 && it[2] <= 14) {
 			total += id + 1
 		}
 	}
