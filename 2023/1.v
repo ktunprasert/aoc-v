@@ -3,9 +3,6 @@ module main
 import os
 import arrays
 
-const input_file = '2023/1.txt'
-const example_file = '2023/1e.txt'
-
 fn parse_input(lines []string) ![]int {
 	mut out := []int{}
 	for _, line in lines {
@@ -111,7 +108,7 @@ fn part2(input []int) !int {
 }
 
 fn main() {
-	filename := if os.args.len > 1 { os.args[1] } else { input_file }
+	filename := if os.args.len > 1 { os.args[1] } else { '2023/1.txt' }
 	lines := os.read_lines(filename)!
 
 	input1 := parse_input(lines)!
