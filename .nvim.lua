@@ -3,13 +3,22 @@ local term_ops = { auto_close = false }
 local entries = {
     {
         " v:run",
-        function() Snacks.terminal(("v run %s"):format(vim.fn.expand("%")), term_ops) end,
-        "v",
+        function()
+            Snacks.terminal(
+                string.format("v run %s", vim.fn.expand("%")), term_ops)
+        end,
+        "<space>",
     },
     {
-        " v:test",
-        function() Snacks.terminal(("v -stats test %s"):format(vim.fn.expand("%:h")), term_ops) end,
-        "<space>",
+        " v:run example",
+        function()
+            Snacks.terminal(
+                string.format(
+                    "v run %s %se.txt",
+                    vim.fn.expand("%"), vim.fn.expand("%:r")
+                ), term_ops)
+        end,
+        "e",
     },
 }
 
