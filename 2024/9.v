@@ -12,7 +12,7 @@ fn parse_input(line string) !([][]int, int) {
 	), arrays.sum(nums)!
 }
 
-fn part1(input [][]int, len int) ! {
+fn part1(input [][]int, len int) !u64 {
 	bad_num := -101
 
 	mut disk := []int{len: len, init: bad_num}
@@ -44,8 +44,15 @@ fn part1(input [][]int, len int) ! {
 	// one more time
 	disk[i], disk[j] = disk[j], disk[i]
 
-	println('final ${i} ${j}')
-	println(disk)
+	mut total := u64(0)
+	for k, n in disk {
+		if n == bad_num {
+			break
+		}
+		total += u64(k) * u64(n)
+	}
+
+	return total
 }
 
 fn part2(input []int) !
@@ -57,5 +64,5 @@ fn main() {
 	// println(parse_input(lines)!)
 	code, len := parse_input(lines)!
 
-	part1(code, len)!
+	println(part1(code, len)!)
 }
