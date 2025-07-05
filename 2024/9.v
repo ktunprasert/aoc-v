@@ -55,11 +55,38 @@ fn part1(d []int) !u64 {
 	return total
 }
 
-fn part2(input []int) !
+fn part2(d []int) !u64 {
+	mut disk := d.clone()
+	mut freq := map[int]int{}
+	mut empty_freq := map[int]int{}
+	mut idx_freq := map[int]int{}
+	mut key := 0
+	for i, v in disk {
+		if v == bad_num {
+			empty_freq[key]++
+			continue
+		}
+
+		key = v
+		freq[key]++
+		if key !in idx_freq {
+			idx_freq[key] = i
+		}
+	}
+
+	println('empty_freq: ${empty_freq}')
+	println('freq: ${freq}')
+	println('idx_freq: ${idx_freq}')
+
+	println(disk)
+
+	return 0
+}
 
 fn main() {
 	filename := if os.args.len > 1 { os.args[1] } else { '2024/9.txt' }
 	lines := os.read_file(filename)!
 	disk := parse_input(lines)!
-	println(part1(disk)!)
+	// println(part1(disk)!)
+	println(part2(disk)!)
 }
